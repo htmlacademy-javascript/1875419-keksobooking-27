@@ -19,7 +19,7 @@ const getRandomFloatInclusive = (min, max, fractionLenght) => {
     return NaN;
   }
 
-  return (Math.random() * (max - min) + min).toFixed(fractionLenght);
+  return +(Math.random() * (max - min) + min).toFixed(fractionLenght);
 };
 
 
