@@ -26,7 +26,6 @@ const getRandomFloatInclusive = (min, max, fractionLenght) => {
 const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];//выбор случайного элемента массива
 
 
-export {getRandomArrayElement};
-export {getRandomIntInclusive};
-export {getRandomFloatInclusive};
+export {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive};
+
 

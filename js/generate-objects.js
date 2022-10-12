@@ -1,6 +1,4 @@
-import { getRandomArrayElement } from './util';
-import { getRandomFloatInclusive } from './util';
-import { getRandomIntInclusive } from './util';
+import {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive} from './util';
 
 const OBJECTS_TO_GENERATE = 10;
 
@@ -70,6 +68,4 @@ const generateObjects = (count) => {
   return objects;
 };
 
-export {generateObjects};
-
-generateObjects(OBJECTS_TO_GENERATE);
+export {generateObjects, OBJECTS_TO_GENERATE};
