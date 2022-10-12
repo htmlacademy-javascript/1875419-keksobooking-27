@@ -1,4 +1,4 @@
-import {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive} from './util';
+import {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive} from './util.js';
 
 const OBJECTS_TO_GENERATE = 10;
 
