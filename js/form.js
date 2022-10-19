@@ -18,13 +18,11 @@ const turnActiveMode = () =>{
   adForm.classList.remove('ad-form--disabled');
   mapFilters.classList.remove('map__filters--disabled');
   formField.forEach((formFieldItem) => {
-    formFieldItem.removeAttribute('disabled',true);
+    formFieldItem.removeAttribute('disabled');
   });
   mapSelect.forEach((mapSelectItem) => {
-    mapSelectItem.removeAttribute('disabled',true);
+    mapSelectItem.removeAttribute('disabled');
   });
 };
-
-//turnInactiveMode();
 
 export {turnInactiveMode, turnActiveMode};
