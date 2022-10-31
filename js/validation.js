@@ -3,7 +3,6 @@ const roomNumberElement = adForm.querySelector('#room_number');
 const capacityElement = adForm.querySelector('#capacity');
 const priceElement = adForm.querySelector('#price');
 const typeElement = adForm.querySelector('#type');
-const submitButton = adForm.querySelector('.ad-form__submit');
 
 const roomsToGuests = {
   1: ['1'],
@@ -32,7 +31,7 @@ const pristine = new Pristine(adForm, {
   errorClass: 'ad-form__element--invalid',
   errorTextParent: 'ad-form__element',
 }, true);
-
+//функции валидации и сообщений об ошибках
 function validateCapacity () {
   return roomsToGuests[roomNumberElement.value].includes(capacityElement.value);
 }
@@ -65,35 +64,8 @@ pristine.addValidator(
   getPriceErrorMessage
 );
 
-function onRoomNumberChange() {
-  pristine.validate(capacityElement);
-  pristine.validate(roomNumberElement);
-}
-function onCapacityChange() {
-  pristine.validate(capacityElement);
-  pristine.validate(roomNumberElement);
-}
-function onPriceChange() {
-  pristine.validate(priceElement);
-}
-function onTypeChange() {
-  const minPrice = typesToMinPrices[typeElement.value];
-  priceElement.placeholder = minPrice;
-  priceElement.min = minPrice;
-  pristine.validate(priceElement);
-}
-
-roomNumberElement.addEventListener('change', onRoomNumberChange);
-capacityElement.addEventListener('change', onCapacityChange);
-typeElement.addEventListener('change', onTypeChange);
-priceElement.addEventListener('change', onPriceChange);
-
 adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
   if (!pristine.validate()) {
-    submitButton.disabled = true;
-  } else {
-    submitButton.disabled = false;
+    evt.preventDefault();
   }
 });
