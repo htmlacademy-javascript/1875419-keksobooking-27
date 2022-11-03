@@ -97,3 +97,5 @@ adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
+export { typeElement, typesToMinPrices};

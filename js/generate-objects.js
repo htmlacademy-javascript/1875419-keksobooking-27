@@ -41,7 +41,7 @@ const createObject = (numb) => {
       title : getRandomArrayElement(offerBase.title),
       type : getRandomArrayElement(offerBase.type),
       address : `${location.lat}, ${location.lng}`,
-      price : getRandomIntInclusive(0,3000),
+      price : getRandomIntInclusive(0,100000),
       rooms : getRandomIntInclusive(1,3),
       guests : getRandomIntInclusive(1,10),
       checkin : getRandomArrayElement(offerBase.checkin),
