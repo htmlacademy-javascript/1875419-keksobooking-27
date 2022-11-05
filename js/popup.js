@@ -7,7 +7,6 @@ const TYPES_OF_APARTMENTS = {
 };
 
 const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
-const popupMap = document.querySelector('.map__canvas');
 
 const generateMarkup = (item) => {
   const similarOffer = similarOfferTemplate.cloneNode(true);
@@ -52,6 +51,18 @@ const generateMarkup = (item) => {
   }
   if (!features){
     popupOfferFeatures.remove();
+  } else {
+    //если поле непустое, то массив с удобствами записываем в offerFeatures
+    const offerFeatures = features;
+    //создаём модификатор, на основе входных данных пользователя (удобства), который будем сравнивать с соответствующим классом в разметке.
+    const modifiers = offerFeatures.map((offerFeature) => `popup__feature--${offerFeature}`);
+
+    popupFeatureList.forEach((featureListItem) => {
+      const modifier = featureListItem.classList[1]; //1 - это индекс нужного класса в атрибуте class
+      if (!modifiers.includes(modifier)) {
+        featureListItem.remove();
+      }
+    });
   }
 
   popupOfferTitle.textContent = title;
@@ -63,17 +74,6 @@ const generateMarkup = (item) => {
   popupOfferDescription.textContent = description;
   popupOfferAvatar.src = avatar;
 
-
-  const offerFeatures = features;
-  //создаём модификатор, на основе входных данных пользователя (удобства), который будем сравнивать с соответствующим классом в разметке.
-  const modifiers = offerFeatures.map((offerFeature) => `popup__feature--${offerFeature}`);
-
-  popupFeatureList.forEach((featureListItem) => {
-    const modifier = featureListItem.classList[1]; //1 - это индекс нужного класса в атрибуте class
-    if (!modifiers.includes(modifier)) {
-      featureListItem.remove();
-    }
-  });
 
   const offerPhotos = photos;
   if (!photos){
@@ -91,4 +91,5 @@ const generateMarkup = (item) => {
   return similarOffer;
 };
 
-export {generateMarkup, popupMap};
+
+export { generateMarkup };

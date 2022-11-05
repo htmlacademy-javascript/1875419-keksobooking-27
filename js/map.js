@@ -1,8 +1,7 @@
-import { generateObjects } from './generate-objects.js';
 import {generateMarkup} from './popup.js';
 import { turnActiveMode, turnInactiveMode } from './form.js';
 
-const SIMILAR_OFFER_COUNT = 10;
+//const SIMILAR_OFFER_COUNT = 10;
 const START_COORDINATE = {
   LAT: 35.65283,
   LNG: 139.83947
@@ -49,7 +48,7 @@ const onMarkerMove = (evt) => {
 
 //загрузка карты и размещение на ней меток
 turnInactiveMode();
-const setMap = () =>{
+const setMap = (similarOffers) =>{
   const map = L.map(mapCanvas)
     .on('load', () => {
       turnActiveMode();
@@ -98,7 +97,7 @@ const setMap = () =>{
   };
 
   showMainMarker();
-  showMarkers(generateObjects(SIMILAR_OFFER_COUNT));
+  showMarkers(similarOffers);
 
 };
 
