@@ -1,7 +1,6 @@
 import {generateMarkup} from './popup.js';
 import { turnActiveMode, turnInactiveMode } from './form.js';
 
-//const SIMILAR_OFFER_COUNT = 10;
 const START_COORDINATE = {
   LAT: 35.65283,
   LNG: 139.83947

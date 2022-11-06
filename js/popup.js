@@ -52,10 +52,8 @@ const generateMarkup = (item) => {
   if (!features){
     popupOfferFeatures.remove();
   } else {
-    //если поле непустое, то массив с удобствами записываем в offerFeatures
-    const offerFeatures = features;
     //создаём модификатор, на основе входных данных пользователя (удобства), который будем сравнивать с соответствующим классом в разметке.
-    const modifiers = offerFeatures.map((offerFeature) => `popup__feature--${offerFeature}`);
+    const modifiers = features.map((offerFeature) => `popup__feature--${offerFeature}`);
 
     popupFeatureList.forEach((featureListItem) => {
       const modifier = featureListItem.classList[1]; //1 - это индекс нужного класса в атрибуте class
