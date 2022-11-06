@@ -105,7 +105,7 @@ checkinElement.addEventListener('change', onCheckoutChange);
 checkoutElement.addEventListener('change', onCheckinChange);
 typeElement.addEventListener('change', onTypeChange);
 
-const setOfferFormSubmit = (onSuccess) =>{
+const setOfferFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();

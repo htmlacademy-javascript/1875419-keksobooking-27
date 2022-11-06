@@ -1,10 +1,13 @@
-const getData = (onSuccess) => {
-  fetch('https://27.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
+const getData = (onSuccess, onFail) => {
+  fetch('https://27.javascript.pages.academ/keksobooking/data')
+    .then((response) =>
+      response.json()
+    )
     .then((similarOffers) => {
       onSuccess(similarOffers);
-      //setMap(similarOffers.slice(0, SIMILAR_OFFER_COUNT));
-
+    })
+    .catch(() => {
+      onFail();
     });
 };
 
