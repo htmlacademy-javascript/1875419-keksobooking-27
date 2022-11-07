@@ -1,5 +1,5 @@
 import {generateMarkup} from './popup.js';
-import { turnActiveMode, turnInactiveMode } from './form.js';
+import { turnActiveMode, turnInactiveMode, turnMapFiltersOff } from './form.js';
 
 const START_COORDINATE = {
   LAT: 35.65283,
@@ -100,4 +100,28 @@ const setMap = (similarOffers) =>{
 
 };
 
-export{ setMap };
+const setMapOnFail = () => {
+  const failMap = L.map(mapCanvas)
+    .on('load', () => {
+      turnActiveMode();
+      turnMapFiltersOff();
+    })
+    .setView({
+      lat: START_COORDINATE.LAT,
+      lng: START_COORDINATE.LNG
+    },ZOOM);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(failMap);
+  const showMainMarker = () =>{
+    mainPinMarker.addTo(failMap);
+    mainPinMarker.on('move', onMarkerMove);
+  };
+  showMainMarker();
+};
+
+export{ setMap, setMapOnFail };

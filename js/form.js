@@ -25,4 +25,12 @@ const turnActiveMode = () =>{
   });
 };
 
-export {turnInactiveMode, turnActiveMode};
+const turnMapFiltersOff = () => {
+  mapFilters.classList.add('map__filters--disabled');
+  mapSelect.forEach((mapSelectItem) => {
+    mapSelectItem.setAttribute('disabled',true);
+  });
+};
+
+
+export {turnInactiveMode, turnActiveMode, turnMapFiltersOff};
