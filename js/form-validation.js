@@ -1,3 +1,5 @@
+import { showAlertMessage } from './util.js';
+import { sendData } from './api.js';
 const adForm = document.querySelector('.ad-form');
 const roomNumberElement = adForm.querySelector('#room_number');
 const capacityElement = adForm.querySelector('#capacity');
@@ -5,6 +7,7 @@ const priceElement = adForm.querySelector('#price');
 const typeElement = adForm.querySelector('#type');
 const checkinElement = adForm.querySelector('#timein');
 const checkoutElement = adForm.querySelector('#timeout');
+const submitButton = adForm.querySelector('.ad-form__submit');
 
 const roomsToGuests = {
   1: ['1'],
@@ -86,16 +89,42 @@ pristine.addValidator(
   validatePrice,
   getPriceErrorMessage
 );
+//блокировка/разблокировка кнопки отправки формы
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
 
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+//валидация полей при их изменении пользователем
 adForm.addEventListener('change', onFormChange);
 checkinElement.addEventListener('change', onCheckoutChange);
 checkoutElement.addEventListener('change', onCheckinChange);
 typeElement.addEventListener('change', onTypeChange);
 
-adForm.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
+const setOfferFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
 
-export { typeElement, typesToMinPrices};
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showAlertMessage('Не удалось сохранить объявление. Попробуйте ещё раз');
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export { typeElement, typesToMinPrices, setOfferFormSubmit};

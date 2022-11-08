@@ -25,4 +25,12 @@ const turnActiveMode = () =>{
   });
 };
 
-export {turnInactiveMode, turnActiveMode};
+
+const turnFormActive = () => {
+  adForm.classList.remove('ad-form--disabled');
+  formField.forEach((formFieldItem) => {
+    formFieldItem.removeAttribute('disabled');
+  });
+};
+
+export {turnInactiveMode, turnActiveMode, turnFormActive};

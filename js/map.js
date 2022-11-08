@@ -1,8 +1,9 @@
-import { generateObjects } from './generate-objects.js';
 import {generateMarkup} from './popup.js';
-import { turnActiveMode, turnInactiveMode } from './form.js';
+import { turnActiveMode, turnFormActive, turnInactiveMode} from './form-mode.js';
+import { showAlertMessage } from './util.js';
+import { getData } from './api.js';
 
-const SIMILAR_OFFER_COUNT = 10;
+const SIMILAR_OFFERS_COUNT = 10;
 const START_COORDINATE = {
   LAT: 35.65283,
   LNG: 139.83947
@@ -39,7 +40,25 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-//устанавливаем отображение координат в поле адреса объявления
+
+
+turnInactiveMode();
+const map = L.map(mapCanvas)
+  .setView({
+    lat: START_COORDINATE.LAT,
+    lng: START_COORDINATE.LNG
+  },
+  ZOOM);
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
+
+//устанавливаем отображение координат метки в поле адреса объявления
 addressField.value = `${START_COORDINATE.LAT}, ${START_COORDINATE.LNG}`;
 const onMarkerMove = (evt) => {
   const {lat, lng} = evt.target.getLatLng();
@@ -47,59 +66,69 @@ const onMarkerMove = (evt) => {
   addressField.value = addressValue;
 };
 
-//загрузка карты и размещение на ней меток
-turnInactiveMode();
-const setMap = () =>{
-  const map = L.map(mapCanvas)
-    .on('load', () => {
-      turnActiveMode();
-    })
-    .setView({
-      lat: START_COORDINATE.LAT,
-      lng: START_COORDINATE.LNG
-    },ZOOM);
-
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+const markerGroup = L.layerGroup().addTo(map);
+//добавление метки на карту
+const createMarker = (item) => {
+  const {
+    location:{
+      lat,
+      lng
+    }
+  } = item;
+  const marker = L.marker(
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      lat,
+      lng,
     },
-  ).addTo(map);
+    {
+      icon,
+    },
+  );
 
-  const createMarker = (item) => {
-    const {
-      location:{
-        lat,
-        lng
-      }
-    } = item;
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon,
-      },
-    );
-
-    marker
-      .addTo(map)
-      .bindPopup(generateMarkup(item));
-  };
-
-  const showMarkers = (offers) => {
-    offers.forEach(createMarker);
-  };
-
-  const showMainMarker = () =>{
-    mainPinMarker.addTo(map);
-    mainPinMarker.on('move', onMarkerMove);
-  };
-
-  showMainMarker();
-  showMarkers(generateObjects(SIMILAR_OFFER_COUNT));
-
+  marker
+    .addTo(markerGroup)
+    .bindPopup(generateMarkup(item));
+};
+//создание меток похожих объявлений
+const showMarkers = (offers) => {
+  offers.forEach(createMarker);
 };
 
-export{ setMap };
+//загрузка карты
+const setMap = () => {
+  //определение координат карты и главной метки
+  mainPinMarker.setLatLng({
+    lat: START_COORDINATE.LAT,
+    lng: START_COORDINATE.LNG
+  });
+
+  map.setView({
+    lat: START_COORDINATE.LAT,
+    lng: START_COORDINATE.LNG
+  },
+  ZOOM);
+  //устанавливаем отображение главной метки
+  mainPinMarker.addTo(map);
+  mainPinMarker.on('move', onMarkerMove);
+
+  turnFormActive();
+};
+
+
+const onDataLoad = (similarOffers) => {
+  showMarkers(similarOffers.slice(0, SIMILAR_OFFERS_COUNT));
+  turnActiveMode();
+};
+
+const onDataFailed = () => {
+  showAlertMessage('Ошибка:( Не удалось получить информацию о других объявлениях');
+};
+
+const renderOffersOnMap = () => {
+  map.whenReady( () => {
+    getData(onDataLoad, onDataFailed);
+  });
+};
+
+
+export {setMap, renderOffersOnMap};
