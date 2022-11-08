@@ -1,4 +1,4 @@
-import { typeElement, typesToMinPrices } from './validation.js';
+import { typeElement, typesToMinPrices } from './form-validation.js';
 const sliderElement = document.querySelector('.ad-form__slider');
 const priceValueElement = document.querySelector('#price');
 
