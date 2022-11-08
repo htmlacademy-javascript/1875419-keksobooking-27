@@ -1,5 +1,9 @@
-import { showAlertMessage } from './util.js';
 import { sendData } from './api.js';
+import { setMap } from './map.js';
+import { sliderElement } from './slider.js';
+import { showSuccessMessage, showErrorMessage } from './modal.js';
+
+
 const adForm = document.querySelector('.ad-form');
 const roomNumberElement = adForm.querySelector('#room_number');
 const capacityElement = adForm.querySelector('#capacity');
@@ -8,6 +12,7 @@ const typeElement = adForm.querySelector('#type');
 const checkinElement = adForm.querySelector('#timein');
 const checkoutElement = adForm.querySelector('#timeout');
 const submitButton = adForm.querySelector('.ad-form__submit');
+const mapFilters = document.querySelector('.map__filters');
 
 const roomsToGuests = {
   1: ['1'],
@@ -99,13 +104,31 @@ const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Сохранить';
 };
+
+const resetPage = () => {
+  adForm.reset();
+  mapFilters.reset();
+  setMap();
+  sliderElement.noUiSlider.reset();
+};
+
+const onSendSuccess = () => {
+  showSuccessMessage();
+  resetPage();
+  unblockSubmitButton();
+};
+
+const onSendError = () => {
+  showErrorMessage();
+  unblockSubmitButton();
+};
 //валидация полей при их изменении пользователем
 adForm.addEventListener('change', onFormChange);
 checkinElement.addEventListener('change', onCheckoutChange);
 checkoutElement.addEventListener('change', onCheckinChange);
 typeElement.addEventListener('change', onTypeChange);
 
-const setOfferFormSubmit = (onSuccess) => {
+const setOfferFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -113,14 +136,8 @@ const setOfferFormSubmit = (onSuccess) => {
     if (isValid) {
       blockSubmitButton();
       sendData(
-        () => {
-          onSuccess();
-          unblockSubmitButton();
-        },
-        () => {
-          showAlertMessage('Не удалось сохранить объявление. Попробуйте ещё раз');
-          unblockSubmitButton();
-        },
+        onSendSuccess,
+        onSendError,
         new FormData(evt.target),
       );
     }
