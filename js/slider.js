@@ -29,4 +29,4 @@ const initSlider = () => {
 };
 
 
-export { initSlider };
+export { initSlider, sliderElement };

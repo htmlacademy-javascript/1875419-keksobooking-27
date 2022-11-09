@@ -1,5 +1,7 @@
 const ALERT_SHOW_TIME = 5000;
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const getRandomIntInclusive = (min, max) => {
   //функция вычисляет случайное целое число из заданного диапазона включительно
   //аргументами могут быть только неотрицательные числа
@@ -48,6 +50,6 @@ const showAlertMessage = (message) => {
 };
 
 
-export {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive, showAlertMessage};
+export {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive, showAlertMessage, isEscapeKey};
 
 
