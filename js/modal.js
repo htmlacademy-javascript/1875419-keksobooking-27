@@ -11,7 +11,7 @@ const successPopup = document.querySelector('#success')
 const renderMessage = (text) => {
   document.body.append(text);
 
-  const onPopupEscKeydown = (evt) => {
+  const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       closeUserModal();
@@ -24,10 +24,10 @@ const renderMessage = (text) => {
   //тут декларативное объявление, так как она нужна выше
   function closeUserModal() {
     text.remove();
-    document.removeEventListener('keydown', onPopupEscKeydown);
+    document.removeEventListener('keydown', onDocumentKeydown);
   }
 
-  document.addEventListener('keydown', onPopupEscKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
   text.addEventListener('click', onPopupCloseClick);
 };
 
