@@ -113,11 +113,11 @@ const resetPage = () => {
   sliderElement.noUiSlider.reset();
 };
 
-const resetBtnPage = (evt) => {
+const onResetButtonClick = (evt) => {
   evt.preventDefault();
   resetPage();
 };
-resetButton.addEventListener('click', resetBtnPage);
+resetButton.addEventListener('click', onResetButtonClick);
 
 const onSendSuccess = () => {
   showSuccessMessage();
