@@ -13,6 +13,7 @@ const checkinElement = adForm.querySelector('#timein');
 const checkoutElement = adForm.querySelector('#timeout');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const mapFilters = document.querySelector('.map__filters');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const roomsToGuests = {
   1: ['1'],
@@ -111,6 +112,12 @@ const resetPage = () => {
   setMap();
   sliderElement.noUiSlider.reset();
 };
+
+const onResetButtonClick = (evt) => {
+  evt.preventDefault();
+  resetPage();
+};
+resetButton.addEventListener('click', onResetButtonClick);
 
 const onSendSuccess = () => {
   showSuccessMessage();

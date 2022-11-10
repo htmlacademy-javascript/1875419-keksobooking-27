@@ -49,7 +49,14 @@ const showAlertMessage = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
 
-export {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive, showAlertMessage, isEscapeKey};
+export {getRandomArrayElement, getRandomIntInclusive, getRandomFloatInclusive, showAlertMessage, isEscapeKey, debounce};
 
 

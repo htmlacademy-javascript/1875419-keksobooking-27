@@ -2,6 +2,7 @@ import {generateMarkup} from './popup.js';
 import { turnActiveMode, turnFormActive, turnInactiveMode} from './form-mode.js';
 import { showAlertMessage } from './util.js';
 import { getData } from './api.js';
+import { setFilterListener } from './filter.js';
 
 const SIMILAR_OFFERS_COUNT = 10;
 const START_COORDINATE = {
@@ -94,6 +95,15 @@ const showMarkers = (offers) => {
   offers.forEach(createMarker);
 };
 
+const clearMap = () => {
+  markerGroup.clearLayers();
+};
+
+const showChoosedMarkers = (data) => {
+  clearMap();
+  showMarkers(data);
+};
+
 //загрузка карты
 const setMap = () => {
   //определение координат карты и главной метки
@@ -112,10 +122,12 @@ const setMap = () => {
   mainPinMarker.on('move', onMarkerMove);
 
   turnFormActive();
+  addressField.value = `${START_COORDINATE.LAT}, ${START_COORDINATE.LNG}`;
 };
 
 
 const onDataLoad = (similarOffers) => {
+  setFilterListener(similarOffers);
   showMarkers(similarOffers.slice(0, SIMILAR_OFFERS_COUNT));
   turnActiveMode();
 };
@@ -131,4 +143,4 @@ const renderOffersOnMap = () => {
 };
 
 
-export {setMap, renderOffersOnMap};
+export {setMap, renderOffersOnMap, showChoosedMarkers, SIMILAR_OFFERS_COUNT};
