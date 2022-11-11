@@ -2,6 +2,7 @@ import { sendData } from './api.js';
 import { setMap } from './map.js';
 import { sliderElement } from './slider.js';
 import { showSuccessMessage, showErrorMessage } from './modal.js';
+import { clearPhotos } from './avatar.js';
 
 
 const adForm = document.querySelector('.ad-form');
@@ -111,6 +112,7 @@ const resetPage = () => {
   mapFilters.reset();
   setMap();
   sliderElement.noUiSlider.reset();
+  clearPhotos();
 };
 
 const onResetButtonClick = (evt) => {
