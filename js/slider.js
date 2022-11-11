@@ -1,10 +1,11 @@
 import { typeElement, typesToMinPrices } from './form-validation.js';
-const sliderElement = document.querySelector('.ad-form__slider');
-const priceValueElement = document.querySelector('#price');
 
 const MIN_SLIDER_RANGE = 0;
 const MAX_SLIDER_RANGE = 100000;
 const SLIDER_STEP = 100;
+
+const sliderElement = document.querySelector('.ad-form__slider');
+const priceValueElement = document.querySelector('#price');
 
 noUiSlider.create(sliderElement, {
   range: {
